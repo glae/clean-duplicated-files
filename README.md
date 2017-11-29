@@ -4,8 +4,9 @@
 
 This is a script to help friends to clean up their photos directories.
 
-It can delete duplicated files (same name and filename) from "mess folder" when found from "reference folder".
- 
+It can delete duplicated files (same name and filename) from "mess folder" when found in "reference folder".
+It ignore all directory structures (it is not a `diff`-like tool).
+
  ## How to use
  
 1. First time
@@ -14,12 +15,15 @@ It can delete duplicated files (same name and filename) from "mess folder" when 
     
 2. Then
 
-       sbt "run <Reference folder> <Mess folder>"
+       sbt "run <Reference folder> <Mess folder> <action: dry-run | delete-duplicates>"
        
-    example: 
-    
-       sbt "run /tmp/pictures_root/reference /tmp/pictures_root/total_mess"
+    examples: 
+
+    - It will display all files that **could** be deleted (but will not really run the deletion):
+
+            sbt "run /tmp/pictures_root/reference /tmp/pictures_root/total_mess dry-run"
        
-       
-       
-       
+    - It will delete all duplicated files:
+
+            sbt "run /tmp/pictures_root/reference /tmp/pictures_root/total_mess delete-duplicates"
+     

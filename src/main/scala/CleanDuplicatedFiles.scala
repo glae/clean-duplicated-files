@@ -1,5 +1,5 @@
 import java.io.File
-import java.nio.file.Files.size
+import java.nio.file.Files._
 import java.nio.file.Paths._
 
 import scala.collection.mutable.ListBuffer
@@ -8,22 +8,36 @@ object CleanDuplicatedFiles {
 
   def main(args: Array[String]): Unit = {
 
-    if (args.length == 2) {
+    if (args.length == 3) {
       val reference = new File(args(0))
       val mess = new File(args(1))
+      val action = args(2)
 
       if (reference.exists && reference.isDirectory && mess.exists && mess.isDirectory) {
 
+        showMessage("Finding duplicates, it can take a while...")
         val duplicates = findAll(reference, mess)
-        showMessage(s"${duplicates.length} duplicates have been found, do you want to delete them from \n'$mess'? [y/n]")
+        showMessage(s"${duplicates.length} duplicates have been found in '${mess.getAbsolutePath}'")
 
+        action match {
+          case "dry-run" =>
+            showMessage(s"Duplicated files:\n---\n${duplicates.mkString("\n")}")
+
+          case "delete-duplicates" =>
+            showMessage("Deleting duplicates, it can take a while...")
+            duplicates.foreach(f => delete(get(f)))
+            showMessage(s"${duplicates.length} duplicates have been deleted in '${mess.getAbsolutePath}'")
+
+          case _ =>
+            showMessage("Please choose a action (dry-run | delete-duplicates).")
+        }
 
       } else wrongUsage
     } else wrongUsage
   }
 
   private def wrongUsage = {
-    showMessage("2 real folders are required! Usage: sbt \"run <reference folder> <mess folder>\"")
+    showMessage("2 real folders are required! Usage: sbt \"run <reference folder> <mess folder> <action: dry-run | delete-duplicates>\"")
     sys.exit()
   }
 
@@ -49,9 +63,10 @@ object CleanDuplicatedFiles {
   }
 
   private var aDuplicateHasBeenFound = false
+
   private def containsADuplicate(messFile: File, allReferenceFiles: File): Boolean = {
 
-    //TODO break when a duplicate has been found
+    //TODO it would be better to stop when a duplicate has been found
     allReferenceFiles.listFiles().foreach { referenceFile =>
       if (referenceFile.isFile) {
         if (filesAreDuplicates(messFile, referenceFile)) {
