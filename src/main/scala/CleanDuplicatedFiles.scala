@@ -37,7 +37,7 @@ object CleanDuplicatedFiles {
   }
 
   private def wrongUsage = {
-    showMessage("2 real folders are required! Usage: sbt \"run <reference folder> <mess folder> <action: dry-run | delete-duplicates>\"")
+    showMessage("2 real folders are required! Usage: sbt \"run <reference folder> <mess folder> <action: dry-run OR delete-duplicates>\"")
     sys.exit()
   }
 
