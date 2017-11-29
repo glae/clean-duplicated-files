@@ -15,7 +15,7 @@ It ignore all directory structures (it is not a `diff`-like tool).
     
 2. Then
 
-       sbt "run <Reference folder> <Mess folder> <action: dry-run | delete-duplicates>"
+       sbt "run <Reference folder> <Mess folder> <action: dry-run OR delete-duplicates>"
        
     examples: 
 
