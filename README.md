@@ -10,7 +10,10 @@ It ignore all directory structures (it is not a `diff`-like tool).
  ## How to use
  
 1. First time
-   
+
+`sbt` is required. On a Debian, you can do:
+
+       git clone https://github.com/glae/clean-duplicated-files.git && cd clean-duplicated-files
        ./setup.sh
     
 2. Then
