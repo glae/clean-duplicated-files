@@ -2,9 +2,9 @@
 
 ## Purpose
 
-This is a script to help friends to clean up their photos directories.
+This is a script to help friends to clean up their photos/files directories.
 
-It can delete duplicated files (same name and filename) from "mess folder" when found in "reference folder".
+It can delete duplicated files (same name and size) from "mess folder" when found in "reference folder".
 It ignore all directory structures (it is not a `diff`-like tool).
 
  ## How to use

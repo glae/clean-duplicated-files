@@ -81,9 +81,7 @@ object CleanDuplicatedFiles {
 
   private def containsADuplicate(messFile: Path, allReferenceFiles: Path): Boolean = {
     Files.walk(allReferenceFiles).filter(isRegularFile(_)).forEach { refFile =>
-      if (filesAreDuplicates(messFile, refFile)) {
-        return true
-      }
+      if (filesAreDuplicates(messFile, refFile)) return true
     }
     false
   }

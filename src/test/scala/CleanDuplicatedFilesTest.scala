@@ -22,7 +22,7 @@ class CleanDuplicatedFilesTest extends org.specs2.mutable.Specification {
 
   def create_plenty_of_files() {
 
-    val root = "/tmp/pictures_root2"
+    val root = "/tmp/pictures_root"
     FileUtils.deleteDirectory(new File(root))
     val refName = s"$root/ref"
     val messName = s"$root/mess"
