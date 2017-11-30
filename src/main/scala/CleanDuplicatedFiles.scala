@@ -1,8 +1,11 @@
 import java.io.File
+import java.nio.file.{Files, Path}
 import java.nio.file.Files._
 import java.nio.file.Paths._
+import java.util.concurrent.TimeUnit._
 
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.duration.Duration
 
 object CleanDuplicatedFiles {
 
@@ -15,8 +18,11 @@ object CleanDuplicatedFiles {
 
       if (reference.exists && reference.isDirectory && mess.exists && mess.isDirectory) {
 
+        val start = System.currentTimeMillis()
+
         showMessage("Finding duplicates, it can take a while...")
-        val duplicates = findAll(reference, mess)
+
+        findAll(reference.toPath, mess.toPath)
         showMessage(s"${duplicates.length} duplicates have been found in '${mess.getAbsolutePath}'")
 
         action match {
@@ -32,6 +38,9 @@ object CleanDuplicatedFiles {
             showMessage("Please choose a action (dry-run | delete-duplicates).")
         }
 
+        val elapsedTime = Duration(System.currentTimeMillis() - start, MILLISECONDS)
+        showMessage(s"Elapsed time: ${if (elapsedTime.toSeconds <= 60) s"${elapsedTime.toSeconds} s" else s"${elapsedTime.toMinutes} min"}")
+
       } else wrongUsage
     } else wrongUsage
   }
@@ -43,40 +52,43 @@ object CleanDuplicatedFiles {
 
   private def showMessage(content: String): Unit = println(s"\n---\n$content\n---\n")
 
+  def newProgress() {
+    processedFiles = processedFiles + 1
+    val percent = ((processedFiles / messFiles.toDouble) * 100).toInt
+    print(s"""\r[${"▇" * percent}${"-" * (100 - (percent + 1))}]""")
+  }
+
+
   //TODO maybe returning is a list can be a memory eater
-  private val duplicates = ListBuffer[File]()
+  private val duplicates = ListBuffer[String]()
+  var messFiles = 0
+  var processedFiles = 0
 
-  def findAll(withReference: File, inMess: File): List[String] = {
+  def findAll(withReference: Path, inMess: Path): ListBuffer[String] = {
+    Files.walk(inMess).filter(isRegularFile(_)).forEach(_ => messFiles = messFiles + 1)
     findDuplicates(withReference, inMess)
-    duplicates.map(_.getAbsolutePath).toList
+    duplicates
   }
 
-  private def findDuplicates(referenceFolder: File, messFolder: File): Unit = {
-    messFolder.listFiles().foreach { messFile =>
-      if (messFile.isFile) {
-        aDuplicateHasBeenFound = false
-        if (containsADuplicate(messFile, referenceFolder)) {
-          duplicates += messFile
-        }
-      } else findDuplicates(referenceFolder, messFile)
+  private def findDuplicates(referenceFolder: Path, messFolder: Path): Unit = {
+    Files.walk(messFolder).filter(isRegularFile(_)).forEach { messFile =>
+      newProgress()
+      if (containsADuplicate(messFile, referenceFolder)) {
+        duplicates += messFile.toFile.getAbsolutePath
+      }
     }
   }
 
-  private var aDuplicateHasBeenFound = false
-
-  private def containsADuplicate(messFile: File, allReferenceFiles: File): Boolean = {
-
-    //TODO it would be better to stop when a duplicate has been found
-    allReferenceFiles.listFiles().foreach { referenceFile =>
-      if (referenceFile.isFile) {
-        if (filesAreDuplicates(messFile, referenceFile)) {
-          aDuplicateHasBeenFound = true
-        }
-      } else containsADuplicate(messFile, referenceFile)
+  private def containsADuplicate(messFile: Path, allReferenceFiles: Path): Boolean = {
+    Files.walk(allReferenceFiles).filter(isRegularFile(_)).forEach { refFile =>
+      if (filesAreDuplicates(messFile, refFile)) {
+        return true
+      }
     }
-    aDuplicateHasBeenFound
+    false
   }
 
-  private def filesAreDuplicates(messFile: File, referenceFile: File): Boolean =
-    messFile.getName == referenceFile.getName && size(get(messFile.getAbsolutePath)) == size(get(referenceFile.getAbsolutePath))
+  private def filesAreDuplicates(messFile: Path, referenceFile: Path): Boolean =
+    (messFile.getFileName == referenceFile.getFileName) && (size(messFile) == size(referenceFile))
+
 }

@@ -27,3 +27,22 @@ It ignore all directory structures (it is not a `diff`-like tool).
 
             sbt "run /tmp/pictures_root/reference /tmp/pictures_root/total_mess delete-duplicates"
      
+
+## Performance tests
+
+
+- with files (simple mess + ref), including 20% 
+duplicates
+
+```
+  files     | time 
+------------|------
+     720    | 6 sec                      
+   7 200    | 3 min
+  72 000    | ???
+ 720 000    | ??? 
+ 
+```
+
+`dry-run` and `delete-duplicates` actions seem to take the same time.
+
