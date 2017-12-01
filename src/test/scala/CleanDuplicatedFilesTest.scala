@@ -31,7 +31,7 @@ class CleanDuplicatedFilesTest extends org.specs2.mutable.Specification {
     ref.mkdirs()
     mess.mkdirs()
 
-    for (i <- 1 to 60000) { //files count = 12 * max range
+    for (i <- 1 to 600) { //files count = 12 * max range
       FileUtils.copyDirectoryToDirectory(testReferenceFolder, ref)
       new File(s"$refName/reference").renameTo(new File(s"$refName/reference$i"))
       FileUtils.copyDirectoryToDirectory(testMessFolder, mess)

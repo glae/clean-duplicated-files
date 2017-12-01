@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a script to help friends to clean up their photos/files directories.
+This is a very simple script to help friends to clean up their photos/files directories.
 
 It can delete duplicated files (same name and size) from "mess folder" when found in "reference folder".
 It ignore all directory structures (it is not a `diff`-like tool).
@@ -13,8 +13,7 @@ It ignore all directory structures (it is not a `diff`-like tool).
 
 `sbt` is required. On a Debian, you can do:
 
-       git clone https://github.com/glae/clean-duplicated-files.git && cd clean-duplicated-files
-       ./setup.sh
+       git clone https://github.com/glae/clean-duplicated-files.git && cd clean-duplicated-files && ./setup.sh
     
 2. Then
 
@@ -33,17 +32,15 @@ It ignore all directory structures (it is not a `diff`-like tool).
 
 ## Performance tests
 
-
-- with files (simple mess + ref), including 20% 
-duplicates
+- with files (simple mess + ref), including 25% of duplicates
 
 ```
   files     | time 
 ------------|------
      720    | 6 sec                      
    7 200    | 3 min
-  72 000    | ???
- 720 000    | ??? 
+  72 000    | 5 hours
+ 720 000    | ???
  
 ```
 

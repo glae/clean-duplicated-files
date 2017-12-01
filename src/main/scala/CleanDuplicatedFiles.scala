@@ -71,19 +71,30 @@ object CleanDuplicatedFiles {
   }
 
   private def findDuplicates(referenceFolder: Path, messFolder: Path): Unit = {
-    Files.walk(messFolder).filter(isRegularFile(_)).forEach { messFile =>
-      newProgress()
-      if (containsADuplicate(messFile, referenceFolder)) {
-        duplicates += messFile.toFile.getAbsolutePath
+    val files = Files.walk(messFolder)
+    try {
+      files.filter(isRegularFile(_)).forEach { messFile =>
+        newProgress()
+        if (containsADuplicate(messFile, referenceFolder)) {
+          duplicates += messFile.toFile.getAbsolutePath
+        }
       }
+    } finally {
+      files.close()
     }
+
   }
 
   private def containsADuplicate(messFile: Path, allReferenceFiles: Path): Boolean = {
-    Files.walk(allReferenceFiles).filter(isRegularFile(_)).forEach { refFile =>
-      if (filesAreDuplicates(messFile, refFile)) return true
+    val files = Files.walk(allReferenceFiles)
+    try {
+      files.filter(isRegularFile(_)).forEach { refFile =>
+        if (filesAreDuplicates(messFile, refFile)) return true
+      }
+      false
+    } finally {
+      files.close()
     }
-    false
   }
 
   private def filesAreDuplicates(messFile: Path, referenceFile: Path): Boolean =
