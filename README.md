@@ -4,7 +4,7 @@
 
 This is a very simple script to help friends to clean up their photos/files directories.
 
-It can delete duplicated files (same name and size) from "mess folder" when found in "reference folder".
+It can delete duplicated files (same name and size) in **mess folder** when found in **reference folder**.
 It ignores all directory structures (it is not a `diff`-like tool).
 
  ## How to use
