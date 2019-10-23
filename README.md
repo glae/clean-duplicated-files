@@ -7,7 +7,13 @@ This is a very simple script to help friends to clean up their photos/files dire
 It can delete duplicated files (same name and size) in **mess folder** when found in **reference folder**.
 It ignores all directory structures (it is not a `diff`-like tool).
 
- ## How to use
+## How to use
+ 
+### With Docker 
+
+There is an image here : https://hub.docker.com/r/davecloud/clean-duplicated-files
+
+### From the sources
  
 1. First time
 
