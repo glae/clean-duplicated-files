@@ -1,7 +1,7 @@
-![example workflow name](https://github.com/glae/clean-duplicated-files/workflows/build/badge.svg)
 
-# clean-duplicated-files
 
+# clean-duplicated-files ![example workflow name](https://github.com/glae/clean-duplicated-files/workflows/build/badge.svg)
+ 
 ## Purpose
 
 This is a very simple script to help friends to clean up their photos/files directories.
