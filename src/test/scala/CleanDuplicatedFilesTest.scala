@@ -14,12 +14,8 @@ class CleanDuplicatedFilesTest extends org.specs2.mutable.Specification {
       s"${testMessFolder.getAbsolutePath}/f1"))
   }
 
-
-  "create files" >> {
-    create_plenty_of_files()
-    true must equalTo(true)
-  }
-
+  
+  //utility for performance tests
   def create_plenty_of_files() {
 
     val root = "/tmp/pictures_root"
