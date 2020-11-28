@@ -18,3 +18,9 @@ jobs:
         java-version: 1.8
     - name: Run tests
       run: sbt test
+    - name: Build Docker image
+      uses: Satak/webrequest-action@v1.2.3
+      with:
+        url: https://hub.docker.com/api/build/v1/source/7b0c448c-97b9-4cd6-8dc9-e717ea8eee9c/trigger/1055e97c-925b-4672-9eda-c5c12b3970bb/call/
+        method: POST
+
