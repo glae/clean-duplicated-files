@@ -13,7 +13,8 @@ It ignores all directory structures (it is not a `diff`-like tool).
  
 ### With Docker 
 
-There is an image here : https://hub.docker.com/r/davecloud/docker_clean-duplicated-files
+- There is a [`Dockerfile`](Dockerfile).
+- There is also an image here : https://hub.docker.com/r/davecloud/docker_clean-duplicated-files
 
 ### From the sources
  
