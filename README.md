@@ -4,13 +4,15 @@
  
 ## Purpose
 
-This is a very simple script to help friends to clean up their photos/files directories.
+This is a very simple CLI script to help friends to clean up their photos/files directories.
 
 It can delete duplicated files (same name and size) in **mess folder** when found in **reference folder**.
-It ignores all directory structures (it is not a `diff`-like tool).
+It ignores all directory structures (it is not a `diff`-like tool), it only compares files.
 
-## How to use
- 
+## How to use the CLI 
+
+There is 2 flavors : with docker or from the sources. 
+
 ### With Docker 
 
 - There is a [`Dockerfile`](Dockerfile).
